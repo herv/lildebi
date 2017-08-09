@@ -1,9 +1,3 @@
-
-
-__UNMAINTAINED__ we no longer have the time to maintain this app, but
-would love to see someone take it over and continue developing it!
-
-
 Lil' Debi
 =========
 
@@ -22,6 +16,14 @@ install on the phone, so free software is the only way to get there.  This is
 currently functional alpha software, so do not rely on it to produce a trusted
 Debian install.  Please do try it out, use it, and report criticisms, bugs,
 improvements, etc.
+
+
+Requirements
+============
+* Android 2.1 or higher.
+* busybox executable. lildebi app does not include busybox executable anymore but still depends on it.
+You so need to install busybox by your own for example with help of the installer
+https://f-droid.org/packages/ru.meefik.busybox/
 
 
 Installing Debian
@@ -53,7 +55,6 @@ On Debian/Ubuntu/Mint/etc.:
 
 On Mac OS X, you will need Fink, MacPorts, or Brew to install some of these
 dependencies.  For example, GNU tar is required, OS X's tar will not work.
-Also, faketime is needed to make repeatable builds of busybox.
 
 Both the Android SDK and the Android NDK are needed:
 
@@ -65,7 +66,7 @@ Building
 ========
 
 Building Lil' Debi is a multi-step process including clone the sources,
-getting busybox code as a submodule, building the native utilities, and then
+building the native utilities, and then
 finally building the Android app.  Here are all those steps in a form to run
 in the terminal:
 
@@ -159,15 +160,6 @@ http://packages.debian.org/unstable/cdebootstrap
 cdebootstrap is downloaded directly from Debian, extracted, and then
 tar'ed into the included tarball assets/cdebootstrap.tar. See
 external/cdebootstrap/Makefile for details.
-
-
-busybox
--------
-git://busybox.net/busybox.git
-
-busybox is included as a git submodule and built from source by
-externals/Makefile using a custom config file.
-
 
 gpgv
 ----
