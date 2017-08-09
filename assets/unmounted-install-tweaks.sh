@@ -1,4 +1,4 @@
-#!/data/data/info.guardianproject.lildebi/app_bin/sh
+#!/system/xbin/sh
 #
 # see lildebi-common for arguments, the args are converted to vars there.  The
 # first arg is the "app payload" directory where the included scripts are kept
