@@ -8,7 +8,6 @@ local.properties
 proguard.cfg
 proguard-project.txt
 #
-assets/busybox
 assets/cdebootstrap.tar
 assets/gpgv
 external/cdebootstrap/cdebootstrap-static-0.*/
