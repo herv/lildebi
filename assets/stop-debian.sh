@@ -4,10 +4,10 @@
 # first arg $1 is the "app payload" directory, where the included scripts are
 # kept.
 
-# many phones don't even include 'test', so set the path to our
-# busybox tools first, where we provide all the UNIX tools needed by
+# many phones don't even include 'test', so set the path to
+# busybox tools first, which provides all the UNIX tools needed by
 # this script
-export PATH=$1:$PATH
+export PATH=/system/xbin:$PATH
 
 test -e $1/lildebi-common || exit 1
 . $1/lildebi-common

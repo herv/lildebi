@@ -1,9 +1,9 @@
 #!/system/xbin/sh
 
-# many phones don't even include 'test', so set the path to our
-# busybox tools first, where we provide all the UNIX tools needed by
+# many phones don't even include 'test', so set the path to
+# busybox tools first, which provides all the UNIX tools needed by
 # this script
-export PATH=$1:$PATH
+export PATH=/system/xbin:$PATH
 
 echo "========================================"
 echo "./delete-all-debian-setup.sh"
