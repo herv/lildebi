@@ -70,31 +70,13 @@ export TZ=UTC
 
 .PHONY: all assets clean distclean
 
-all: $(EXTERNAL_ROOT)/busybox/busybox $(EXTERNAL_ROOT)/gnupg/g10/gpgv
+all: $(EXTERNAL_ROOT)/gnupg/g10/gpgv
 	make -C $(EXTERNAL_ROOT)/cdebootstrap
 
 assets: all
-	install $(EXTERNAL_ROOT)/busybox/busybox \
-		$(EXTERNAL_ROOT)/cdebootstrap/cdebootstrap.tar \
+	install $(EXTERNAL_ROOT)/cdebootstrap/cdebootstrap.tar \
 		$(EXTERNAL_ROOT)/gnupg/g10/gpgv \
 		$(ASSETS)/
-
-
-$(EXTERNAL_ROOT)/busybox/.config: $(EXTERNAL_ROOT)/busybox_config
-	cp $(EXTERNAL_ROOT)/busybox_config $(EXTERNAL_ROOT)/busybox/.config
-	sed -i "s|^CONFIG_SYSROOT=.*|CONFIG_SYSROOT=\"$(NDK_SYSROOT)\"|" \
-		$(EXTERNAL_ROOT)/busybox/.config
-
-$(EXTERNAL_ROOT)/busybox/busybox: $(EXTERNAL_ROOT)/busybox/.config
-# I haven't found a reliable way to install/uninstall a patch from a Makefile,
-# so just always try to apply it, and ignore it if it fails. Works fine unless
-# the files being patched have changed, in which cause a partial application
-# could happen unnoticed.
-	-cd $(EXTERNAL_ROOT)/busybox/ && \
-		patch -N -p1 --reject-file=- < ../003-mount-umount-fsck-df.patch
-	echo "TIMESTAMP: $(TIMESTAMP)"
-	faketime -f $(TIMESTAMP) make -C $(EXTERNAL_ROOT)/busybox/
-
 
 $(EXTERNAL_ROOT)/gnupg/configure: $(EXTERNAL_ROOT)/gnupg/configure.ac
 	cd $(EXTERNAL_ROOT)/gnupg && \
@@ -136,15 +118,9 @@ verify-debian-packages: clean
 	make -C $(EXTERNAL_ROOT)/cdebootstrap
 
 clean:
-	rm -f -- $(EXTERNAL_ROOT)/busybox/.config
-	rm -f -- $(EXTERNAL_ROOT)/busybox/busybox
-	-cd $(EXTERNAL_ROOT)/busybox/ && \
-		patch -N -R -p1 --reject-file=- < ../003-mount-umount-fsck-df.patch
 	-make -C $(EXTERNAL_ROOT)/gnupg/ clean
-	make -C $(EXTERNAL_ROOT)/busybox/ clean
 	make -C $(EXTERNAL_ROOT)/cdebootstrap/ clean
 	make -C $(EXTERNAL_ROOT)/debian-archive-keyring/ clean
 
 distclean: clean
-	rm -f -- $(ASSETS)/busybox
 	rm -f -- $(ASSETS)/cdebootstrap.tar
