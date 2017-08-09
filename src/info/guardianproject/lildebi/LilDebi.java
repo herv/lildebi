@@ -352,7 +352,7 @@ public class LilDebi extends Activity implements OnCreateContextMenuListener {
 
     private void installBusyboxSymlinks() {
         if (! NativeHelper.sh.exists()) {
-            File busybox = new File(NativeHelper.app_bin, "busybox");
+            File busybox = new File("/system/xbin", "busybox");
             if (!busybox.exists()) {
                 String msg = "busybox is missing from the apk!";
                 Log.e(TAG, msg);
