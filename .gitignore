@@ -1,12 +1,11 @@
+# auto-gererated files from Android Studio
+.idea/
 # auto-generated files from Android builds
-bin/
-gen/
-build.xml
-ant.properties
-default.properties
+.gradle/
+build/
+app/build/
+gradle.properties
 local.properties
-proguard.cfg
-proguard-project.txt
 #
 assets/cdebootstrap.tar
 assets/gpgv

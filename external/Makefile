@@ -13,7 +13,8 @@ export ac_cv_func_malloc_0_nonnull=yes
 CWD = $(shell pwd)
 PROJECT_ROOT = $(CWD)/..
 EXTERNAL_ROOT = $(PROJECT_ROOT)/external
-ASSETS = $(PROJECT_ROOT)/assets
+MAIN_APP_ROOT = $(PROJECT_ROOT)/app/src/main
+ASSETS = $(MAIN_APP_ROOT)/assets
 
 # Android now has 64-bit and 32-bit versions of the NDK for GNU/Linux.  We
 # assume that the build platform uses the appropriate version, otherwise the
@@ -26,12 +27,11 @@ else
 endif
 
 # Android NDK setup
-NDK_BASE ?= /opt/android-ndk
+NDK_BASE ?= /opt/Android/android-ndk
 NDK_ABI=arm
 NDK_TOOLCHAIN_VERSION=4.8
-# NDK platform level, aka APP_PLATFORM, is equivalent to minSdkVersion
-NDK_PLATFORM_LEVEL ?= \
-	$(shell sed -n 's,.*android:minSdkVersion="\([0-9][0-9]*\)".*,\1,p' $(PROJECT_ROOT)/AndroidManifest.xml)
+# NDK platform level c.f. https://developer.android.com/ndk/guides/stable_apis.html
+NDK_PLATFORM_LEVEL = 5
 
 NDK_SYSROOT=$(NDK_BASE)/platforms/android-$(NDK_PLATFORM_LEVEL)/arch-$(NDK_ABI)
 NDK_UNAME := $(shell uname -s | tr '[A-Z]' '[a-z]')

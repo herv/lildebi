@@ -2,7 +2,7 @@ Lil' Debi
 =========
 
 This is an app to setup and manage a Debian install in parallel on an Android
-phone.  It can build a Debian install from scratch or use an existing image.
+device.  It can build a Debian install from scratch or use an existing image.
 It manages the starting and stopping of the Debian install.
 
 It uses cdebootstrap to build up the disk image as a chroot, and then provides
@@ -21,8 +21,8 @@ improvements, etc.
 Requirements
 ============
 * Android 2.1 or higher.
-* busybox executable. lildebi app does not include busybox executable anymore but still depends on it.
-You so need to install busybox by your own for example with help of the installer
+* Busybox executable. Lil' Debi app no longer includes busybox executable but still depends on it.
+You so need to install Busybox by your own for example with help of the installer
 https://f-droid.org/packages/ru.meefik.busybox/
 
 
@@ -31,7 +31,7 @@ Installing Debian
 
 The process of installing Debian with Lil' Debi is self-explanatory, just run
 the app and click the Install... button.  But it doesn't yet work on all
-phones.  If the install process fails on your phone, you can still use Lil'
+devices.  If the install process fails on your phone, you can still use Lil'
 Debi by downloading a pre-built Debian image.  It should work with any
 Debian/Ubuntu/Mint armel image file.  Here is a Debian image file that was
 built by Lil' Debi:
@@ -46,50 +46,75 @@ Debian".  Click the button to start your new Debian install.
 Build Setup
 ===========
 
-On Debian/Ubuntu/Mint/etc.:
+Build setup on machine other than Debian-based is not officially supported.
+Therefore following notes assume that your build machine is a Debian or Debian-derivatives (Ubuntu, Mint, ...).
+Setup has actually been validated on Ubuntu 16.04.
 
+Both the Android SDK and the Android NDK are required:
+* SDK: https://developer.android.com/studio/index.html#linux-bundle
+* NDK: https://developer.android.com/ndk/downloads/older_releases.html#ndk-11c-downloads
+
+Download and install the Android SDK from link given just above.
+
+Install dependencies for building of the external projects:
   ```
   sudo apt-get install autoconf automake libtool transfig wget patch \
-       texinfo ant make openjdk-7-jdk faketime
+       texinfo make openjdk-8-jdk faketime
 ```
 
-On Mac OS X, you will need Fink, MacPorts, or Brew to install some of these
+Download latest NDK officially supporting Android 2.1 i.e. release 10e:
+  ```
+  wget https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip
+```
+
+Unpack the Android NDK archive somewhere, e.g.:
+  ```
+  unzip android-ndk-r10e-linux-x86_64.zip -d /opt/Android/
+```
+
+
+Below are some tips you may want to consider to build on Mac OS X or Windows:
+
+On Mac OS X you will need Fink, MacPorts, or Brew to install some of the build
 dependencies.  For example, GNU tar is required, OS X's tar will not work.
 
-Both the Android SDK and the Android NDK are needed:
-
-SDK: http://developer.android.com/sdk/
-NDK: http://developer.android.com/sdk/ndk/
+On Windows, you will likely need to work with cygwin, mingw32 or "Ubuntu on Windows" bash.
 
 
 Building
 ========
 
-Building Lil' Debi is a multi-step process including clone the sources,
-building the native utilities, and then
-finally building the Android app.  Here are all those steps in a form to run
-in the terminal:
+Building Lil' Debi is a multi-step process which consists in :
+* cloning the sources,
+* building the native utilities,
+* and then finally building the Android app.
+
+Here are all those steps in a form to run in the terminal:
 
 ```
-  git clone https://github.com/guardianproject/lildebi
+  git clone https://github.com/herv/lildebi
   cd lildebi
   git submodule init
   git submodule update
-  make NDK_BASE=/path/to/your/android-ndk -C external assets
-  ./setup-ant
-  ant debug
+  # make NDK_BASE=/path/to/your/android-ndk -C external assets
+  # e.g.
+  make NDK_BASE=/opt/Android/android-ndk-r10e -C external assets
+  ./gradlew assembleDebug
 ```
 
-Once that has completed, you can install it however you would normally install
-an .apk file.  You will find the .apk in the bin/ folder.  An easy way to
-install it via the terminal is to run:
+When done, the debug apk of the app is ready to install, i.e.:
 
 ```
-  adb install bin/LilDebi-debug.apk
+  adb install app/build/outputs/apk/app-debug.apk
+```
+
+Or simply the one-step command to assemble and install the apk
+```
+  ./gradlew installDebug
 ```
 
 
-Deterministic Release
+Deterministic Release (**release process is broken and requires some rework**)
 ---------------------
 
 Having a deterministic, repeatable build process that produces the exact same
@@ -144,7 +169,7 @@ The following options can be set from the make command line to tailor the NDK
 build to your setup:
 
  * NDK_BASE             (/path/to/your/android-ndk)
- * NDK_PLATFORM_LEVEL   (7-17 as in android-17)
+ * NDK_PLATFORM_LEVEL   (default is 5)
  * NDK_ABI              (arm, mips, x86)
  * NDK_COMPILER_VERSION (4.4.3, 4.6, 4.7, clang3.1, clang3.2)
  * HOST                 (arm-linux-androideabi, mipsel-linux-android, x86)
