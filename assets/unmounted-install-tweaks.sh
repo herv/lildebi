@@ -6,10 +6,10 @@
 # get full debug output
 set -x
 
-# many phones don't even include 'test', so set the path to
-# busybox tools first, which provides all the UNIX tools needed by
+# many phones don't even include 'test', so set the path to our
+# busybox tools first, where we provide all the UNIX tools needed by
 # this script
-export PATH=/system/xbin:$PATH
+export PATH=$1:$PATH
 
 test -e $1/lildebi-common || exit 1
 . $1/lildebi-common

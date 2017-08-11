@@ -1,9 +1,9 @@
 #!/data/data/info.guardianproject.lildebi/app_bin/sh
 
-# many phones don't even include 'test', so set the path to
-# busybox tools first, which provides all the UNIX tools needed by
+# many phones don't even include 'test', so set the path to our
+# busybox tools first, where we provide all the UNIX tools needed by
 # this script
-export PATH=/system/xbin:$PATH
+export PATH=$1:$PATH
 
 echo "========================================"
 echo "./delete-all-debian-setup.sh"

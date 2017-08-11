@@ -40,7 +40,7 @@ test -d $sdcard || echo "sdcard: '$sdcard' not a directory"
 test -z $install_path && echo "install_path: '$install_path' is empty"
 test -z $mnt && echo "mnt: '$mnt' is empty"
 
-busybox_path="/system/xbin"
+busybox_path="$app_bin"
 busybox=$busybox_path/busybox
 
 fsck_chroot=`dirname $app_bin`/fsck-chroot
