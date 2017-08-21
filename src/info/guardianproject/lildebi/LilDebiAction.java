@@ -110,6 +110,7 @@ public class LilDebiAction {
                         "export PATH=" + NativeHelper.app_bin.getAbsolutePath());
                 writeCommand(os, command);
                 writeCommand(os, "exit");
+                os.flush();
 
                 sh.waitFor();
                 Log.i(LilDebi.TAG, "Done!");

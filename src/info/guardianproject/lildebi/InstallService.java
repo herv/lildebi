@@ -104,6 +104,7 @@ public class InstallService extends Service {
                 // Avoid keeping the resource mounted because of some failure
                 writeCommand(os, "./stop-debian.sh " + stdArgs);
                 writeCommand(os, "exit");
+                os.flush();
 
                 sh.waitFor();
                 Log.i(LilDebi.TAG, "Done!");

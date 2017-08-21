@@ -371,6 +371,7 @@ public class LilDebi extends Activity implements OnCreateContextMenuListener {
                 OutputStream os = sh.getOutputStream();
                 os.write(cmd.getBytes("ASCII"));
                 os.write(";\nexit\n".getBytes("ASCII"));
+                os.flush();
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(sh.getInputStream()));
                 String line = null;
